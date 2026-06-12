@@ -1,39 +1,53 @@
-<div style="margin: 20px auto; max-width: 900px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px;">
-    <input type="text" [(ngModel)]="searchTerm" (input)"filterEmployees()" placeholder="Search by Name or Department..." style="padding: 10px; width: 60%; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; height: 42px;">
-    <button routerLink="/add" style="background-color: #2980b9; color: white; border: none; padding: 0 20px; font-size: 14px; cursor: pointer; border-radius: 4px; font-weight: bold; height: 42px; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; white-space: nowrap;">+ Add New Employee</button>
-  </div>
+<div style="margin: 30px auto; max-width: 500px; font-family: 'Segoe UI', sans-serif; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+  <h2 style="margin-top: 0; color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;">
+    {{ isEditMode ? 'Modify Employee Details' : 'Register New Employee' }}
+  </h2>
 
-  <div style="margin-bottom: 15px; font-size: 14px; color: #7f8c8d; font-weight: 500;">
+  <form #empForm="ngForm" (ngSubmit)="empForm.form.valid && onSubmit()" novalidate>
+    
+    <div style="margin-bottom: 20px;">
+      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Full Name</label>
+      <input type="text" name="name" [(ngModel)]="employee.name" #nameModel="ngModel" required placeholder="John Doe" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+      <small *ngIf="nameModel.invalid && nameModel.touched" style="color: #e74c3c; font-weight: 500;">Name is required.</small>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Email Address</label>
+      <input type="email" name="email" [(ngModel)]="employee.email" #emailModel="ngModel" required email placeholder="john@company.com" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+      <small *ngIf="emailModel.invalid && emailModel.touched" style="color: #e74c3c; font-weight: 500;">Please enter a valid email address.</small>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Department</label>
+      <select name="department" [(ngModel)]="employee.department" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; background: white;">
+        <option value="">-- Select Department --</option>
+        <option value="IT & Infrastructure">IT & Infrastructure</option>
+        <option value="Software Engineering">Software Engineering</option>
+        <option value="Data Analytics">Data Analytics</option>
+        <option value="Human Resources">Human Resources</option>
+      </select>
+    </div>
+
+    <div style="margin-bottom: 25px;">
+      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Annual Salary (₹)</label>
+      <input type="number" name="salary" [(ngModel)]="employee.salary" #salaryModel="ngModel" required min="1" placeholder="50000" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+      <small *ngIf="salaryModel.invalid && salaryModel.touched" style="color: #e74c3c; font-weight: 500;">Please enter a valid salary amount.</small>
+    </div>
+
+    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+      <button type="button" routerLink="/" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Cancel</button>
+      <button type="submit" [disabled]="empForm.invalid" [style.background-color]="empForm.invalid ? '#bdc3c7' : '#2ecc71'" style="padding: 10px 20px; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background 0.2s;">
+        Save Record
+      </button>
+    </div>
+  </form>
+</div>
+
+<div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+  <div style="font-size: 14px; color: #7f8c8d; font-weight: 500;">
     Showing <span style="background-color: #2980b9; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600;">{{ filteredEmployees.length }}</span> active employee record(s).
   </div>
-
-  <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; border: 1px solid #ddd; background-color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden;">
-    <thead>
-      <tr style="background-color: #f8f9fa; border-bottom: 2px solid #ddd;">
-        <th style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #333;">ID</th>
-        <th style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #333;">Name</th>
-        <th style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #333;">Email</th>
-        <th style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #333;">Department</th>
-        <th style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #333;">Salary</th>
-        <th style="padding: 12px; border: 1px solid #ddd; text-align: center; font-weight: 600; color: #333;">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let emp of filteredEmployees" style="border-bottom: 1px solid #ddd; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#fdfdfd'" onmouseout="this.style.backgroundColor='#ffffff'">
-        <td style="padding: 12px; border: 1px solid #ddd; color: #555;">{{ emp.id }}</td>
-        <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; color: #2c3e50;">{{ emp.name }}</td>
-        <td style="padding: 12px; border: 1px solid #ddd; color: #555;">{{ emp.email }}</td>
-        <td style="padding: 12px; border: 1px solid #ddd; color: #555;"><span style="background-color: #ecf0f1; padding: 4px 8px; border-radius: 3px; font-size: 12px; font-weight: 500;">{{ emp.department }}</span></td>
-        <td style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #27ae60;">₹{{ emp.salary }}</td>
-        <td style="padding: 12px; border: 1px solid #ddd; text-align: center; white-space: nowrap;">
-          <button [routerLink]="['/edit', emp.id]" style="background-color: #f39c12; color: white; border: none; padding: 6px 14px; margin-right: 6px; cursor: pointer; border-radius: 4px; font-weight: 500; font-size: 13px;">Edit</button>
-          <button (click)="onDelete(emp.id)" style="background-color: #c0392b; color: white; border: none; padding: 6px 14px; cursor: pointer; border-radius: 4px; font-weight: 500; font-size: 13px;">Delete</button>
-        </td>
-      </tr>
-      <tr *ngIf="filteredEmployees.length === 0">
-        <td colspan="6" style="padding: 30px; text-align: center; color: #7f8c8d; font-style: italic; background-color: #fafafa;">No records found.</td>
-      </tr>
-    </tbody>
-  </table>
+  <button (click)="exportToCSV()" style="background-color: #27ae60; color: white; border: none; padding: 6px 12px; font-size: 13px; cursor: pointer; border-radius: 4px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px;">
+    📥 Export CSV Report
+  </button>
 </div>

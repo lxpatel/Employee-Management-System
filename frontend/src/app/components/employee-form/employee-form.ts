@@ -55,10 +55,10 @@ export class EmployeeFormComponent implements OnInit {
     } else {
       this.employeeService.addEmployee(this.employeeForm.value).subscribe({
         next: () => {
-          // 1. Pehle hum browser ke localStorage mein signal save kar rahe hain
+          
           localStorage.setItem('employeeAddedSignal', 'true');
           
-          // 2. Uske baad hum list page par redirect kar rahe hain
+          
           this.router.navigate(['/']);
         },
         error: () => alert('Failed to add employee')

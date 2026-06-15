@@ -3,30 +3,41 @@
   <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
     
     <div style="margin-bottom: 15px;">
-      <label style="display:block; margin-bottom:5px;">Full Name:</label>
-      <input type="text" formControlName="name" style="width: 100%; padding: 8px; box-sizing: border-box;">
-      <small *ngIf="employeeForm.get('name')?.invalid && employeeForm.get('name')?.touched" style="color: red;">Name is required.</small>
+      <label style="display:block; margin-bottom:5px; font-weight: 600;">Full Name:</label>
+      <input type="text" formControlName="name" style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+      <small *ngIf="employeeForm.get('name')?.invalid && employeeForm.get('name')?.touched" style="color: red; display: block; margin-top: 5px;">Name is required.</small>
     </div>
 
     <div style="margin-bottom: 15px;">
-      <label style="display:block; margin-bottom:5px;">Email Address:</label>
-      <input type="email" formControlName="email" style="width: 100%; padding: 8px; box-sizing: border-box;">
-      <small *ngIf="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched" style="color: red;">Provide a valid email layout.</small>
+      <label style="display:block; margin-bottom:5px; font-weight: 600;">Email Address:</label>
+      <input type="email" formControlName="email" style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+      <small *ngIf="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched" style="color: red; display: block; margin-top: 5px;">Provide a valid email layout.</small>
     </div>
 
     <div style="margin-bottom: 15px;">
-      <label style="display:block; margin-bottom:5px;">Department:</label>
-      <input type="text" formControlName="department" style="width: 100%; padding: 8px; box-sizing: border-box;">
-      <small *ngIf="employeeForm.get('department')?.invalid && employeeForm.get('department')?.touched" style="color: red;">Department field cannot be empty.</small>
+      <label style="display:block; margin-bottom:5px; font-weight: 600;">Phone Number:</label>
+      <input type="text" formControlName="phone" placeholder="Enter 10-15 digit number" style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+      <small *ngIf="employeeForm.get('phone')?.invalid && employeeForm.get('phone')?.touched" style="color: red; display: block; margin-top: 5px;">Provide a valid phone layout (10-15 digits).</small>
     </div>
 
     <div style="margin-bottom: 15px;">
-      <label style="display:block; margin-bottom:5px;">Salary (INR):</label>
-      <input type="number" formControlName="salary" style="width: 100%; padding: 8px; box-sizing: border-box;">
-      <small *ngIf="employeeForm.get('salary')?.invalid && employeeForm.get('salary')?.touched" style="color: red;">Salary must be a positive number.</small>
+      <label style="display:block; margin-bottom:5px; font-weight: 600;">Residential Address:</label>
+      <input type="text" formControlName="address" placeholder="Enter Full Address Details" style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
     </div>
 
-    <button type="submit" [disabled]="employeeForm.invalid" style="background-color: #27ae60; color: white; padding: 10px 15px; border: none; cursor: pointer; border-radius: 4px;">Save Record</button>
+    <div style="margin-bottom: 15px;">
+      <label style="display:block; margin-bottom:5px; font-weight: 600;">Department:</label>
+      <input type="text" formControlName="department" style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+      <small *ngIf="employeeForm.get('department')?.invalid && employeeForm.get('department')?.touched" style="color: red; display: block; margin-top: 5px;">Department field cannot be empty.</small>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display:block; margin-bottom:5px; font-weight: 600;">Salary (INR):</label>
+      <input type="number" formControlName="salary" style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+      <small *ngIf="employeeForm.get('salary')?.invalid && employeeForm.get('salary')?.touched" style="color: red; display: block; margin-top: 5px;">Salary must be a positive number.</small>
+    </div>
+
+    <button type="submit" [disabled]="employeeForm.invalid" style="background-color: #27ae60; color: white; padding: 10px 15px; border: none; cursor: pointer; border-radius: 4px; font-weight: bold;">Save Record</button>
     <button type="button" routerLink="/" style="background-color: #7f8c8d; color: white; padding: 10px 15px; border: none; cursor: pointer; border-radius: 4px; margin-left: 10px;">Cancel</button>
   </form>
 </div>

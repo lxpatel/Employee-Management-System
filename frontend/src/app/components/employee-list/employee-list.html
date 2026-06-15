@@ -6,6 +6,7 @@
 </div>
 
 <div style="margin: 20px auto; max-width: 900px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px;">
     <input type="text" [(ngModel)]="searchTerm" (input)="filterEmployees()" placeholder="Search by Name or Department..." style="padding: 10px; width: 60%; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; height: 42px;">
     <button routerLink="/add" style="background-color: #2980b9; color: white; border: none; padding: 0 20px; font-size: 14px; cursor: pointer; border-radius: 4px; font-weight: bold; height: 42px; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; white-space: nowrap;">+ Add New Employee</button>
@@ -26,6 +27,10 @@
         <th style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #333;">ID</th>
         <th style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #333;">Name</th>
         <th style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #333;">Email</th>
+        
+        <th style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #333;">Phone</th>
+        <th style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #333;">Address</th>
+        
         <th style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #333;">Department</th>
         <th style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #333;">Salary</th>
         <th style="padding: 12px; border: 1px solid #ddd; text-align: center; font-weight: 600; color: #333;">Actions</th>
@@ -36,6 +41,10 @@
         <td style="padding: 12px; border: 1px solid #ddd; color: #555;">{{ emp.id }}</td>
         <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; color: #2c3e50;">{{ emp.name }}</td>
         <td style="padding: 12px; border: 1px solid #ddd; color: #555;">{{ emp.email }}</td>
+        
+        <td style="padding: 12px; border: 1px solid #ddd; color: #555;">{{ emp.phone || 'N/A' }}</td>
+        <td style="padding: 12px; border: 1px solid #ddd; color: #555; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ emp.address }}">{{ emp.address || 'N/A' }}</td>
+        
         <td style="padding: 12px; border: 1px solid #ddd; color: #555;"><span style="background-color: #ecf0f1; padding: 4px 8px; border-radius: 3px; font-size: 12px; font-weight: 500;">{{ emp.department }}</span></td>
         <td style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #27ae60;">₹{{ emp.salary }}</td>
         <td style="padding: 12px; border: 1px solid #ddd; text-align: center; white-space: nowrap;">
@@ -43,8 +52,9 @@
           <button (click)="onDelete(emp.id)" style="background-color: #c0392b; color: white; border: none; padding: 6px 14px; cursor: pointer; border-radius: 4px; font-weight: 500; font-size: 13px;">Delete</button>
         </td>
       </tr>
+      
       <tr *ngIf="filteredEmployees.length === 0">
-        <td colspan="6" style="padding: 30px; text-align: center; color: #7f8c8d; font-style: italic; background-color: #fafafa;">No records found.</td>
+        <td colspan="8" style="padding: 30px; text-align: center; color: #7f8c8d; font-style: italic; background-color: #fafafa;">No records found.</td>
       </tr>
     </tbody>
   </table>

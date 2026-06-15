@@ -23,9 +23,12 @@ export class EmployeeFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Initializing form configuration layout parameters including phone and address
     this.employeeForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.pattern('^[0-9]{10,15}$')]], // 👈 Dynamic regex accepting 10-15 digit strings cleanly
+      address: ['', [Validators.maxLength(255)]],          // 👈 Form control constraint matching VARCHAR capacity limit
       department: ['', Validators.required],
       salary: ['', [Validators.required, Validators.min(0)]]
     });
@@ -38,13 +41,14 @@ export class EmployeeFormComponent implements OnInit {
       this.employeeService.getEmployees().subscribe(employees => {
         const emp = employees.find(e => e.id === this.employeeId);
         if (emp) {
+          // patchValue will automatically match properties (name, email, phone, address, etc.)
           this.employeeForm.patchValue(emp);
         }
       });
     }
   }
 
- onSubmit(): void {
+  onSubmit(): void {
     if (this.employeeForm.invalid) return;
 
     if (this.isEditMode) {
@@ -55,10 +59,8 @@ export class EmployeeFormComponent implements OnInit {
     } else {
       this.employeeService.addEmployee(this.employeeForm.value).subscribe({
         next: () => {
-          
+          // Persist the success notification token to display a green banner on dashboard refresh
           localStorage.setItem('employeeAddedSignal', 'true');
-          
-          
           this.router.navigate(['/']);
         },
         error: () => alert('Failed to add employee')
